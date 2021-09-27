@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Cryptocurrency Challenge</string>
+
+    <string name="exchange_id_title">Exchange ID</string>
+    <string name="rank_title">Rank</string>
+    <string name="price_title">Price</string>
+    <string name="date_title">Date</string>
 </resources>
