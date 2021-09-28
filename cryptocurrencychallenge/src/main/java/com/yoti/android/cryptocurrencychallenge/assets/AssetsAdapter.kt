@@ -30,7 +30,7 @@ class AssetItemViewHolder(private val binding: AssetItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
     fun bind(asset: AssetUiItem) {
-        binding.textViewAssetCode.text = asset.code
+        binding.textViewAssetCode.text = asset.symbol
         binding.textViewAssetName.text = asset.name
         binding.textViewAssetPrice.text = asset.price
     }
