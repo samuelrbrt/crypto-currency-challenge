@@ -14,7 +14,7 @@ A candidate have to add the required code in this project to implement the follo
   + Exchange ID
   + Rank
   + Price
-  + Updated time with the format "Day/Month/Year"
+  + Updated date with the format "Day/Month/Year"
 
 # Guideline
 The candidate is free to implement the solution in any way that consider appropriated but bear in mind that we 
