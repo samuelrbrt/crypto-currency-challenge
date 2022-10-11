@@ -5,4 +5,8 @@
     <string name="rank_title">Rank</string>
     <string name="price_title">Price</string>
     <string name="date_title">Date</string>
+
+    <string name="error_heading">Something went wrong..</string>
+    <string name="error_subtext">An alien is probably blocking your signal.</string>
+    <string name="retry">Retry</string>
 </resources>
