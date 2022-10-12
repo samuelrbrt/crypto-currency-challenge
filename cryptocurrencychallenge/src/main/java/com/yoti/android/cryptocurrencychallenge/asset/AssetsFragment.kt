@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.yoti.android.cryptocurrencychallenge.R
 import com.yoti.android.cryptocurrencychallenge.config.base.BaseDataBindingHolder
 import com.yoti.android.cryptocurrencychallenge.config.base.BaseFragment
@@ -41,5 +42,10 @@ class AssetsFragment : BaseFragment() {
             .onLoading { isLoading, _ -> adapter.isShimming = isLoading && adapter.items.isEmpty() }
     }
 
-    class AssetViewHolder(itemBinding: AssetItemBinding) : BaseDataBindingHolder<Asset, AssetItemBinding>(itemBinding)
+    inner class AssetViewHolder(itemBinding: AssetItemBinding) : BaseDataBindingHolder<Asset, AssetItemBinding>(itemBinding) {
+        override fun onItemClick(item: Asset, position: Int) {
+            val direction = AssetsFragmentDirections.toMarket(item.id)
+            findNavController().navigate(direction)
+        }
+    }
 }

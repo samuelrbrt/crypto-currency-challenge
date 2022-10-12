@@ -1,5 +1,9 @@
 package com.yoti.android.cryptocurrencychallenge.config.state
 
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
+
+@OptIn(ExperimentalContracts::class)
 sealed class State<out T> {
     class Init<T> : State<T>()
 
@@ -13,17 +17,28 @@ sealed class State<out T> {
 
     fun isLoading() = this is Loading
 
-    fun isError() = this is Error
+    fun isError(): Boolean {
+        contract {
+            returns(true) implies (this@State is Error)
+        }
+
+        return this is Error
+    }
 
     fun isEmptySuccess() = this is Success && ((data is List<*> && data.isEmpty()) || data == null)
 
     fun getError() = if (this is Error) this.exception.message else null
 
-    fun isSuccess() = this is Success
+    fun isSuccess(): Boolean {
+        contract {
+            returns(true) implies (this@State is Success)
+        }
+
+       return this is Success
+    }
 
     fun isCached() = this is Cached
 
-    fun asSuccess() = this as Success
 
     override fun toString(): String {
         return when (this) {

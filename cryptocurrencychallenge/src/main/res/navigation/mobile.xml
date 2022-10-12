@@ -19,6 +19,10 @@
         android:id="@+id/market"
         android:name="com.yoti.android.cryptocurrencychallenge.market.MarketFragment"
         android:label="MarketFragment"
-        tools:layout="@layout/fragment_market" />
+        tools:layout="@layout/fragment_market">
+        <argument
+            android:name="baseId"
+            app:argType="string" />
+    </fragment>
 
 </navigation>

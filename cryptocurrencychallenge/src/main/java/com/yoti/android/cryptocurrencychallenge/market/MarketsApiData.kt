@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class MarketsApiData(
     @SerializedName("data")
-    val marketData: List<MarketData>?,
+    val marketData: List<Market>,
     @SerializedName("timestamp")
     val timestamp: Long?
 )

@@ -1,92 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/textViewExchangeIdTitle"
-        android:layout_width="0dp"
+    <data class=".market.MarketFragmentBinding">
+
+        <variable
+            name="vm"
+            type="com.yoti.android.cryptocurrencychallenge.market.MarketViewModel" />
+    </data>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        loading="@{vm.marketState.loading}"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/exchange_id_title"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:shimmer_auto_start="true"
+        tools:shimmer_base_alpha="1">
 
-    <TextView
-        android:id="@+id/textViewExchangeId"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewExchangeIdTitle"
-        tools:text="bitstamp" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textViewRankTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/rank_title"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewExchangeId" />
+            <TextView
+                android:id="@+id/exchangeIdLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
+                android:minWidth="144dp"
+                android:text="@string/exchange_id_title"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewRank"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRankTitle"
-        tools:text="1" />
+            <TextView
+                android:id="@+id/exchangeIdTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
+                android:text="@{vm.market.exchangeId}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/exchangeIdLabel"
+                tools:text="Bitstamp" />
 
-    <TextView
-        android:id="@+id/textViewPriceTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/price_title"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRank" />
+            <TextView
+                android:id="@+id/rankLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
+                android:text="@string/rank_title"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/exchangeIdTV" />
 
-    <TextView
-        android:id="@+id/textViewPrice"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPriceTitle"
-        tools:text="6927.33" />
+            <TextView
+                android:id="@+id/rankTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{vm.market.rank}"
+                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rankLabel"
+                tools:text="1" />
 
-    <TextView
-        android:id="@+id/textViewDateTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/date_title"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewPrice" />
+            <TextView
+                android:id="@+id/priceLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
+                android:text="@string/price_title"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rankTV" />
 
-    <TextView
-        android:id="@+id/textViewDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDateTitle"
-        tools:text="27/09/2021" />
+            <TextView
+                android:id="@+id/priceTV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
+                android:text="@{vm.market.priceUsd}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/priceLabel"
+                tools:text="6927.33" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/dateLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
+                android:text="@string/date_title"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/priceTV" />
+
+            <TextView
+                android:id="@+id/dateTV"
+                date_format="@{`dd/MM/yyyy`}"
+                date_text="@{vm.market.updated}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dateLabel"
+                tools:text="27/09/2021" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</layout>

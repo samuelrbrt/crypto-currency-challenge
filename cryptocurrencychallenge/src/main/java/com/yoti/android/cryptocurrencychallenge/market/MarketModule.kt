@@ -1,5 +1,6 @@
 package com.yoti.android.cryptocurrencychallenge.market
 
+import com.yoti.android.cryptocurrencychallenge.config.db.Database
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,7 +13,11 @@ import javax.inject.Singleton
 object MarketModule {
     @Provides
     @Singleton
-    fun apiProvider(retrofit: Retrofit): CoinCapService {
-        return retrofit.create(CoinCapService::class.java)
+    fun apiProvider(retrofit: Retrofit): MarketApi {
+        return retrofit.create(MarketApi::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun dbProvider(db: Database) = db.marketDao()
 }

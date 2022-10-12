@@ -1,17 +1,20 @@
 package com.yoti.android.cryptocurrencychallenge.market
 
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-data class MarketData(
+@Entity
+data class Market(
     @SerializedName("baseId")
-    val baseId: String?,
+    @PrimaryKey val baseId: String,
     @SerializedName("baseSymbol")
     val baseSymbol: String?,
     @SerializedName("exchangeId")
     val exchangeId: String?,
     @SerializedName("percentExchangeVolume")
-    val percentExchangeVolume: Any?,
+    val percentExchangeVolume: Double?,
     @SerializedName("priceQuote")
     val priceQuote: String?,
     @SerializedName("priceUsd")
@@ -23,9 +26,9 @@ data class MarketData(
     @SerializedName("rank")
     val rank: String?,
     @SerializedName("tradesCount24Hr")
-    val tradesCount24Hr: Any?,
+    val tradesCount24Hr: Long?,
     @SerializedName("updated")
     val updated: Long?,
     @SerializedName("volumeUsd24Hr")
-    val volumeUsd24Hr: String?
+    val volumeUsd24Hr: Double
 )
