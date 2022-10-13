@@ -4,9 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.room.withTransaction
 import com.yoti.android.cryptocurrencychallenge.config.coroutine.Dispatchers
-import com.yoti.android.cryptocurrencychallenge.config.db.Database
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
@@ -15,7 +13,6 @@ import javax.inject.Inject
 class AssetRemoteMediator @Inject constructor(
     private val api: AssetApi,
     private val assetDao: AssetDao,
-    private val database: Database,
     private val dispatchers: Dispatchers
 ) : RemoteMediator<Int, Asset>() {
     private var offset = 0
@@ -33,14 +30,7 @@ class AssetRemoteMediator @Inject constructor(
 
             val assets = api.getAssets(offset, state.config.pageSize).assetData!!
 
-            database.withTransaction {
-                if (loadType == LoadType.REFRESH) {
-                    assetDao.cleanAssets()
-                }
-
-                assetDao.upsertAssets(assets)
-            }
-
+            assetDao.upsertAssetsCleanIfRefresh(assets, loadType)
             return@withContext MediatorResult.Success(endOfPaginationReached = assets.size < state.config.pageSize)
         } catch (e: Exception) {
             Timber.e(e)

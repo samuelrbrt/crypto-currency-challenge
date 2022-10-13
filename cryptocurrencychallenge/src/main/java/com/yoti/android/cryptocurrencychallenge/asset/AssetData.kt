@@ -7,28 +7,29 @@ import com.google.gson.annotations.SerializedName
 
 @Entity
 data class AssetData(
-    @SerializedName("changePercent24Hr")
-    val changePercent24Hr: String?,
-    @SerializedName("explorer")
-    val explorer: String?,
     @SerializedName("id")
     @PrimaryKey val id: String,
+
+    @SerializedName("changePercent24Hr")
+    val changePercent24Hr: String? = null,
+    @SerializedName("explorer")
+    val explorer: String? = null,
     @SerializedName("marketCapUsd")
-    val marketCapUsd: String?,
+    val marketCapUsd: String? = null,
     @SerializedName("maxSupply")
-    val maxSupply: String?,
+    val maxSupply: String? = null,
     @SerializedName("name")
-    val name: String?,
+    val name: String? = null,
     @SerializedName("priceUsd")
-    val priceUsd: String?,
+    val priceUsd: String? = null,
     @SerializedName("rank")
-    val rank: Long,
+    val rank: Long = 0,
     @SerializedName("supply")
-    val supply: String?,
+    val supply: String? = null,
     @SerializedName("symbol")
-    val symbol: String?,
+    val symbol: String? = null,
     @SerializedName("volumeUsd24Hr")
-    val volumeUsd24Hr: String?,
+    val volumeUsd24Hr: String? = null,
     @SerializedName("vwap24Hr")
-    val vwap24Hr: String?
+    val vwap24Hr: String? = null
 )

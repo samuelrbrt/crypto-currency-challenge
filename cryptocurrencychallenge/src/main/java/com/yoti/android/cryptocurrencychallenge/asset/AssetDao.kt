@@ -1,5 +1,6 @@
 package com.yoti.android.cryptocurrencychallenge.asset
 
+import androidx.paging.LoadType
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
@@ -18,4 +19,12 @@ interface AssetDao {
     @Query("DELETE FROM assetdata")
     fun cleanAssets()
 
+    @Transaction
+    fun upsertAssetsCleanIfRefresh(assets: List<AssetData>, loadType: LoadType) {
+        if (loadType == LoadType.REFRESH) {
+            cleanAssets()
+        }
+
+        upsertAssets(assets)
+    }
 }

@@ -27,15 +27,17 @@ class AssetsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val pagingAdapter = PagingAdapter(R.layout.item_asset, ::AssetViewHolder) { i1, i2 -> i1.id == i2.id }
-        val adapterWithFooter = pagingAdapter.withLoadStateFooter(ShimmerLoadStateAdapter(R.layout.shimmer_asset, ::AssetShimmerVH) {
-            pagingAdapter.retry()
-        })
+        val adapterWithFooter =
+            pagingAdapter.withLoadStateFooter(ShimmerLoadStateAdapter(R.layout.shimmer_asset, ::AssetShimmerVH) {
+                pagingAdapter.retry()
+            })
 
         pagingAdapter.addLoadStateListener {
             binding.isLoading = it.append is LoadState.Loading || it.refresh is LoadState.Loading
+            binding.isInitLoadError = it.refresh is LoadState.Error
         }
 
-        binding.recyclerViewAssets.adapter = adapterWithFooter
+        binding.assetsRV.adapter = adapterWithFooter
         binding.retry = {
             pagingAdapter.refresh()
         }
@@ -45,7 +47,7 @@ class AssetsFragment : BaseFragment() {
         }
     }
 
-    private inner class AssetViewHolder(itemBinding: AssetItemBinding) :
+    inner class AssetViewHolder(itemBinding: AssetItemBinding) :
         PagingViewHolder<Asset, AssetItemBinding>(itemBinding) {
         override fun onItemClick(item: Asset, position: Int) {
             val direction = AssetsFragmentDirections.toMarket(item.id)

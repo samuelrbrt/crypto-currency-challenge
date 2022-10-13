@@ -16,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner "com.yoti.android.cryptocurrencychallenge.config.hilt.HiltTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -43,6 +43,13 @@ android {
 
     buildFeatures {
         dataBinding = true
+    }
+    sourceSets {
+        debug {
+            assets {
+                srcDirs 'src/debug/assets'
+            }
+        }
     }
 }
 
