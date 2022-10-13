@@ -1,10 +1,10 @@
 package com.yoti.android.cryptocurrencychallenge.market
 
 import com.yoti.android.cryptocurrencychallenge.config.coroutine.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
-import timber.log.Timber
-import java.io.IOException
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 class MarketRepository @Inject constructor(
@@ -19,11 +19,4 @@ class MarketRepository @Inject constructor(
             .map { it.marketData.maxBy { market -> market.volumeUsd24Hr } }
             .onEach { db.upsert(it) }
             .flowOn(dispatchers.IO)
-
-    private suspend fun shouldRetryWithIoException(cause: Throwable, attempt: Long): Boolean {
-        return if (cause is IOException && attempt < 3) {
-            delay(3000)
-            true
-        } else false
-    }
 }
