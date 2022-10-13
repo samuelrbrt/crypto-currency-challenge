@@ -6,6 +6,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -39,5 +40,24 @@ fun TextView.setDateTextWithFormat(date: Long?, dateFormat: String) {
         SimpleDateFormat(dateFormat, Locale.getDefault()).format(Date(date))
     } catch (error: RuntimeException) {
         null
+    }
+}
+
+@BindingAdapter("visible_on_error")
+fun View.visibleOnError(state: LoadState) {
+    visibility = if (state is LoadState.Error) VISIBLE else GONE
+}
+
+@BindingAdapter("visible_on_loading")
+fun View.visibleOnLoading(state: LoadState) {
+    visibility = if (state is LoadState.Loading) VISIBLE else GONE
+}
+
+@BindingAdapter("shim_on_load_state")
+fun ShimmerFrameLayout.shimOnLoadState(state: LoadState) {
+    if (state is LoadState.Loading) {
+        showShimmer(true)
+    } else {
+        hideShimmer()
     }
 }

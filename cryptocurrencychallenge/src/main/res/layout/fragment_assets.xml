@@ -6,101 +6,34 @@
     <data class="AssetFragmentBinding">
 
         <variable
-            name="vm"
-            type="com.yoti.android.cryptocurrencychallenge.asset.AssetViewModel" />
+            name="isLoading"
+            type="Boolean" />
+
+        <variable
+            name="retry"
+            type="kotlin.jvm.functions.Function0" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/assets"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/trendingSRL"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:onRefreshListener="@{() -> retry.invoke()}"
+        android:refreshing="@{isLoading}"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:context=".asset.AssetsFragment">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/trendingSRL"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:onRefreshListener="@{() -> vm.refreshAssets()}"
-            android:refreshing="@{vm.assetRefreshState.loading}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewAssets"
-                divider="@{@drawable/divider_e8e8e8}"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="10"
-                tools:listitem="@layout/item_asset" />
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/errorGroup"
-            visibleIf="@{vm.assetRefreshState.isError &amp;&amp; vm.assets.empty}"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:constraint_referenced_ids="errorIV, errorHeadingTV, errorTV, retryBtn" />
-
-        <ImageView
-            android:id="@+id/errorIV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@null"
-            android:src="@drawable/no_network"
-            app:layout_constraintBottom_toTopOf="@+id/errorHeadingTV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/errorHeadingTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_24"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/error_heading"
-            android:textColor="@color/grey_4a4a4a"
-            android:textSize="@dimen/sp_18"
-            app:layout_constraintBottom_toTopOf="@+id/errorTV"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/errorIV" />
-
-        <TextView
-            android:id="@+id/errorTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_8"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/error_subtext"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/errorHeadingTV" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/retryBtn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_16"
-            android:layout_marginTop="@dimen/dp_16"
-            android:layout_marginEnd="@dimen/dp_16"
-            android:layout_marginBottom="@dimen/dp_16"
-            android:background="@drawable/button_border_green"
-            android:fontFamily="@font/roboto_medium"
-            android:onClick="@{v -> vm.refreshAssets()}"
-            android:text="@string/retry"
-            android:textColor="@color/green_31b057"
-            android:textSize="@dimen/sp_15"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/errorTV"
-            app:layout_constraintVertical_bias="1" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAssets"
+            divider="@{@drawable/divider_e8e8e8}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_asset" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

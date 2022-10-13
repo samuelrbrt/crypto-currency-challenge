@@ -11,7 +11,7 @@
     </data>
 
     <com.facebook.shimmer.ShimmerFrameLayout
-        loading="@{vm.marketState.loading}"
+        loading="@{vm.marketState.loading &amp;&amp; vm.market == null}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:shimmer_auto_start="true"
@@ -26,11 +26,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
+                android:background="@{vm.marketState.loading &amp;&amp; vm.market == null? @drawable/bg_shimmer : null}"
                 android:minWidth="144dp"
-                android:text="@string/exchange_id_title"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:textStyle="bold"
+                android:text="@{vm.market != null ?  @string/exchange_id_title : null}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,9 +38,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_36"
+                android:background="@{vm.marketState.loading &amp;&amp; vm.market == null ? @drawable/bg_shimmer : null}"
                 android:text="@{vm.market.exchangeId}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/exchangeIdLabel"
                 tools:text="Bitstamp" />
@@ -51,10 +53,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
-                android:text="@string/rank_title"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:textStyle="bold"
+                android:background="@{vm.marketState.loading &amp;&amp; vm.market == null? @drawable/bg_shimmer : null}"
+                android:minWidth="144dp"
+                android:text="@{vm.market != null ? @string/rank_title :null}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/exchangeIdTV" />
 
@@ -63,9 +65,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_36"
+                android:background="@{vm.marketState.loading &amp;&amp; vm.market == null? @drawable/bg_shimmer : null}"
                 android:text="@{vm.market.rank}"
-                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rankLabel"
                 tools:text="1" />
@@ -75,10 +80,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
-                android:text="@string/price_title"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:textStyle="bold"
+                android:background="@{vm.marketState.loading &amp;&amp; vm.market == null? @drawable/bg_shimmer : null}"
+                android:minWidth="144dp"
+                android:text="@{vm.market != null ? @string/price_title : null }"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rankTV" />
 
@@ -87,9 +92,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_36"
+                android:background="@{vm.marketState.loading &amp;&amp; vm.market == null? @drawable/bg_shimmer : null}"
                 android:text="@{vm.market.priceUsd}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/priceLabel"
                 tools:text="6927.33" />
@@ -99,10 +107,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
-                android:text="@string/date_title"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:textStyle="bold"
+                android:background="@{vm.marketState.loading &amp;&amp; vm.market == null? @drawable/bg_shimmer : null}"
+                android:minWidth="144dp"
+                android:text="@{vm.market != null ? @string/date_title : null}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/priceTV" />
 
@@ -113,11 +121,79 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:background="@{vm.marketState.loading ? @drawable/bg_shimmer : null}"
+                android:layout_marginTop="@dimen/dp_8"
+                android:layout_marginEnd="@dimen/dp_36"
+                android:background="@{vm.marketState.loading &amp;&amp; vm.market == null? @drawable/bg_shimmer : null}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dateLabel"
                 tools:text="27/09/2021" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/errorGroup"
+                visibleIf="@{vm.marketState.isError &amp;&amp; vm.market == null}"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:constraint_referenced_ids="errorIV, errorHeadingTV, errorTV, retryBtn"
+                tools:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/errorIV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:src="@drawable/no_network"
+                app:layout_constraintBottom_toTopOf="@+id/errorHeadingTV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/errorHeadingTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_24"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/error_heading"
+                android:textColor="@color/grey_4a4a4a"
+                android:textSize="@dimen/sp_18"
+                app:layout_constraintBottom_toTopOf="@+id/errorTV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/errorIV" />
+
+            <TextView
+                android:id="@+id/errorTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_8"
+                android:text="@string/error_subtext"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/errorHeadingTV" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/retryBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_16"
+                android:layout_marginTop="@dimen/dp_16"
+                android:layout_marginEnd="@dimen/dp_16"
+                android:layout_marginBottom="@dimen/dp_16"
+                android:background="@drawable/button_border_green"
+                android:fontFamily="@font/roboto_medium"
+                android:onClick="@{() -> vm.retry()}"
+                android:text="@string/retry"
+                android:textColor="@color/green_31b057"
+                android:textSize="@dimen/sp_15"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/errorTV"
+                app:layout_constraintVertical_bias="1" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 </layout>

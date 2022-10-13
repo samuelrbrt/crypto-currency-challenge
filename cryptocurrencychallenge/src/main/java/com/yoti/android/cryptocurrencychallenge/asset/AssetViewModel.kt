@@ -1,20 +1,15 @@
 package com.yoti.android.cryptocurrencychallenge.asset
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.switchMap
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import androidx.paging.*
 import com.yoti.android.cryptocurrencychallenge.config.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@OptIn(ExperimentalPagingApi::class)
 @HiltViewModel
 class AssetViewModel @Inject constructor(repo: AssetRepository) : BaseViewModel() {
-    val assets = repo.getAssets()
-
-    private val refresh = MutableLiveData(false)
-    val assetRefreshState = refresh.switchMap { _ -> liveData { emit(repo.refreshAsset()) } }
-
-    fun refreshAssets() {
-        refresh.value = true
-    }
+    val assets = Pager(PagingConfig(20), remoteMediator = repo.getAssetRemoteMediator())
+    { repo.getAssetsPagingSource() }.flow.cachedIn(viewModelScope).asLiveData()
 }

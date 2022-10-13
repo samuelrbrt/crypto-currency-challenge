@@ -22,7 +22,7 @@ data class AssetData(
     @SerializedName("priceUsd")
     val priceUsd: String?,
     @SerializedName("rank")
-    val rank: String?,
+    val rank: Long,
     @SerializedName("supply")
     val supply: String?,
     @SerializedName("symbol")

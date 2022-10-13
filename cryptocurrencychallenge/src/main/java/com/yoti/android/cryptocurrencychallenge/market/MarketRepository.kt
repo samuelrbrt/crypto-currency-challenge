@@ -18,9 +18,7 @@ class MarketRepository @Inject constructor(
         flow { emit(api.getMarkets(baseId)) }
             .map { it.marketData.maxBy { market -> market.volumeUsd24Hr } }
             .onEach { db.upsert(it) }
-            .retryWhen { cause, attempt -> shouldRetryWithIoException(cause, attempt) }
             .flowOn(dispatchers.IO)
-            .catch { throw it.also { Timber.e(it) } }
 
     private suspend fun shouldRetryWithIoException(cause: Throwable, attempt: Long): Boolean {
         return if (cause is IOException && attempt < 3) {

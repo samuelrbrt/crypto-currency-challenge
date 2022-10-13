@@ -24,6 +24,8 @@ class PagingAdapter<T : Any, B : ViewDataBinding>(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingViewHolder<T, B> {
         return parent.bind(itemLayoutResId, viewHolder).apply { adapter = this@PagingAdapter }
     }
+
+    fun getItemAtPosition(position: Int) = getItem(position)
 }
 
 class DiffCallback<T : Any>(
@@ -35,12 +37,20 @@ class DiffCallback<T : Any>(
     override fun areContentsTheSame(oldItem: T, newItem: T) = contentSame(oldItem, newItem)
 }
 
-open class PagingViewHolder<T : Any, B : ViewDataBinding>(protected val itemBinding: B) :
+open class PagingViewHolder<T : Any, B : ViewDataBinding>(private val itemBinding: B) :
     RecyclerView.ViewHolder(itemBinding.root) {
     open lateinit var adapter: PagingAdapter<T, B>
+
+    init {
+        itemBinding.root.setOnClickListener {
+            onItemClick(adapter.getItemAtPosition(absoluteAdapterPosition)!!, absoluteAdapterPosition)
+        }
+    }
 
     open fun bindTo(item: T?, position: Int) {
         itemBinding.setVariable(BR.item, item)
         itemBinding.executePendingBindings()
     }
+
+    open fun onItemClick(item: T, position: Int) {}
 }

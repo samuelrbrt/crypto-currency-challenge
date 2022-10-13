@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.yoti.android.cryptocurrencychallenge.R
-import com.yoti.android.cryptocurrencychallenge.config.base.BaseDataBindingHolder
-import com.yoti.android.cryptocurrencychallenge.config.base.BaseFragment
-import com.yoti.android.cryptocurrencychallenge.config.base.ShimmerAdapter
-import com.yoti.android.cryptocurrencychallenge.config.state.observe
+import com.yoti.android.cryptocurrencychallenge.config.base.*
 import com.yoti.android.cryptocurrencychallenge.databinding.AssetFragmentBinding
 import com.yoti.android.cryptocurrencychallenge.databinding.AssetItemBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,24 +26,32 @@ class AssetsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = ShimmerAdapter(R.layout.item_asset, R.layout.shimmer_asset, ::AssetViewHolder)
-        binding.recyclerViewAssets.adapter = adapter
+        val pagingAdapter = PagingAdapter(R.layout.item_asset, ::AssetViewHolder) { i1, i2 -> i1.id == i2.id }
+        val adapterWithFooter = pagingAdapter.withLoadStateFooter(ShimmerLoadStateAdapter(R.layout.shimmer_asset, ::AssetShimmerVH) {
+            pagingAdapter.retry()
+        })
 
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.vm = vm
-
-        vm.assets.observe(viewLifecycleOwner) {
-            adapter.updateItems(it)
+        pagingAdapter.addLoadStateListener {
+            binding.isLoading = it.append is LoadState.Loading || it.refresh is LoadState.Loading
         }
 
-        vm.assetRefreshState.observe(viewLifecycleOwner)
-            .onLoading { isLoading, _ -> adapter.isShimming = isLoading && adapter.items.isEmpty() }
+        binding.recyclerViewAssets.adapter = adapterWithFooter
+        binding.retry = {
+            pagingAdapter.refresh()
+        }
+
+        vm.assets.observe(viewLifecycleOwner) {
+            pagingAdapter.submitData(lifecycle, it)
+        }
     }
 
-    inner class AssetViewHolder(itemBinding: AssetItemBinding) : BaseDataBindingHolder<Asset, AssetItemBinding>(itemBinding) {
+    private inner class AssetViewHolder(itemBinding: AssetItemBinding) :
+        PagingViewHolder<Asset, AssetItemBinding>(itemBinding) {
         override fun onItemClick(item: Asset, position: Int) {
             val direction = AssetsFragmentDirections.toMarket(item.id)
             findNavController().navigate(direction)
         }
     }
+
+    private class AssetShimmerVH(itemBinding: ShimmerAssetBinding) : LoadStateViewHolder<ShimmerAssetBinding>(itemBinding)
 }

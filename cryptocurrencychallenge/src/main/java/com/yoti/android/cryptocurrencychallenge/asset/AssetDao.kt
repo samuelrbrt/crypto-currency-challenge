@@ -1,6 +1,6 @@
 package com.yoti.android.cryptocurrencychallenge.asset
 
-import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
@@ -9,8 +9,8 @@ import androidx.room.Transaction
 
 @Dao
 interface AssetDao {
-    @Query("SELECT * FROM assetdata")
-    fun getAssets(): LiveData<List<Asset>>
+    @Query("SELECT * FROM assetdata ORDER BY rank")
+    fun getAssetPagingSource(): PagingSource<Int, Asset>
 
     @Insert(onConflict = REPLACE)
     fun upsertAssets(assets: List<AssetData>?)
@@ -18,9 +18,4 @@ interface AssetDao {
     @Query("DELETE FROM assetdata")
     fun cleanAssets()
 
-    @Transaction
-    fun cleansertAssets(assets: List<AssetData>?) {
-        cleanAssets()
-        upsertAssets(assets)
-    }
 }
